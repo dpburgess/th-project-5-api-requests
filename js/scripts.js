@@ -23,12 +23,15 @@ window.onload = function() {
       });
     })
     .catch(e => {
-      console.log("Something happened");
+      console.log("An error happened with the API request");
+      console.error(e);
     });
 
   // -----------------
   // HELPER FUNCTIONS
   // -----------------
+
+  // resolve the promise if the response is ok and return an error if not
   function checkStatus(response) {
     if (response.ok) {
       return Promise.resolve(response);
@@ -37,9 +40,10 @@ window.onload = function() {
     }
   }
 
+  // take the results of 12 people and loop through to create cards for each person
   function createCard(persons) {
     employees = persons.results;
-    console.log(employees);
+
     persons.results.map((person, index) => {
       let div = document.createElement("div");
       div.classList.add("card");
@@ -58,8 +62,8 @@ window.onload = function() {
     });
   }
 
+  // create a modal when a card is clicked
   function modalUse(e) {
-    //let bodyElem = document.getElementsByTagName("body")[0];
     currentId = parseInt(e.currentTarget.id);
 
     if ([...e.currentTarget.classList].includes("card")) {
@@ -73,6 +77,7 @@ window.onload = function() {
     }
   }
 
+  // function for clicking the 'x' on the modal to close it
   function closeModal(modal) {
     let closeModal = document.getElementById("modal-close-btn");
     closeModal.addEventListener("click", () => {
@@ -80,6 +85,7 @@ window.onload = function() {
     });
   }
 
+  // create the modal based on each employee's info
   function createModal(modalEmp) {
     let modal = document.createElement("div");
     modal.classList.add("modal-container");
@@ -115,12 +121,14 @@ window.onload = function() {
     return modal;
   }
 
+  // use regex to grab the year-month-day and format for the modal
   function parseBirthday(dateString) {
     return dateString
       .substring(0, 10)
       .replace(/(\d{4})-(\d{2})-(\d{2})/, "$2 / $3 / $1");
   }
 
+  // bring the searach html into the page
   function loadSearch() {
     const search = document.querySelector(".search-container");
     search.innerHTML = `
@@ -131,11 +139,13 @@ window.onload = function() {
 `;
   }
 
+  // returns search results based on the first and last names of the employees
   function search(e) {
     e.preventDefault();
     let input = document.getElementById("search-input");
     let searchTerm = input.value.toLowerCase();
 
+    // captures the results of employees that do not match the search criteria
     const results = employees.filter(
       emp =>
         !emp.name.first.toLowerCase().includes(searchTerm) &&
