@@ -1,7 +1,7 @@
 window.onload = function() {
   base_url = "https://randomuser.me/api/?results=12&nat=US";
-  let bodyElem = document.getElementsByTagName("body")[0];
-  let gallery = document.getElementById("gallery");
+  const bodyElem = document.getElementsByTagName("body")[0];
+  const gallery = document.getElementById("gallery");
   let cards;
   let employees;
   let currentId;
@@ -45,7 +45,7 @@ window.onload = function() {
     employees = persons.results;
 
     persons.results.map((person, index) => {
-      let div = document.createElement("div");
+      const div = document.createElement("div");
       div.classList.add("card");
       div.setAttribute("id", index);
       div.innerHTML = `
@@ -79,7 +79,7 @@ window.onload = function() {
 
   // function for clicking the 'x' on the modal to close it
   function closeModal(modal) {
-    let closeModal = document.getElementById("modal-close-btn");
+    const closeModal = document.getElementById("modal-close-btn");
     closeModal.addEventListener("click", () => {
       bodyElem.removeChild(modal);
     });
@@ -102,7 +102,7 @@ window.onload = function() {
                   <p class="modal-text">${modalEmp.email}</p>
                   <p class="modal-text cap">${modalEmp.location.city}</p>
                   <hr>
-                  <p class="modal-text">${modalEmp.cell}</p>
+                  <p class="modal-text">${modalEmp.cell.replace("-", " ")}</p>
                   <p class="modal-text">${modalEmp.location.street.number} ${
       modalEmp.location.street.name
     }, ${modalEmp.location.city}, ${modalEmp.location.state} ${
